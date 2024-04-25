@@ -5,7 +5,7 @@ import DateIndicator from "./date-indicator";
 import Image from "next/image";
 import { messages } from "@/dummy-data/db";
 import { useState } from "react";
-import { X } from "lucide-react";
+import { Bot, X } from "lucide-react";
 import { Dialog } from "@radix-ui/react-dialog";
 import { DialogContent, DialogDescription } from "../ui/dialog";
 import ReactPlayer from "react-player";
@@ -24,18 +24,25 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 	const time = `${hour}:${minute}`;
 
 	const { selectedConversation } = useConversationStore();
-	const isMember = selectedConversation?.participants.includes(me._id) || false;
+	const isMember = selectedConversation?.participants.includes(message.sender?._id) || false;
 
 	const isGroup = selectedConversation?.isGroup || false;
-	const fromMe = message.sender._id === me._id;
-	const bgClass = fromMe ? 'bg-green-chat' : 'bg-white-dark:bg-gray-primary';
+	const fromMe = message?.sender._id === me._id;
+	const fromAI = message.sender?.name === "Gemini";
+	const bgClass = fromMe ? 'bg-green-chat' : !fromAI ? 'bg-white-dark:bg-gray-primary' : 'bg-blue-500 text-white';
 	if (!fromMe) {
 		return (<>
 			<DateIndicator message={message} previousMessage={previousMessage} />
 			<div className="flex gap-1 w-2/3">
-				<ChatBubbleAvatar message={message} isMember={isMember} isGroup={isGroup} />
+				<ChatBubbleAvatar message={message} isMember={isMember} isGroup={isGroup} fromAI={fromAI} />
 				<div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
-					<OtherMessageIndicator />
+					{!fromAI && <OtherMessageIndicator />}
+					{fromAI && <Bot size={16} className="absolute bottom-[2px] left-2" />}
+					{fromAI && <div>
+						<h4 className="font-bold "> {message.sender.name} </h4>
+						<hr className="mb-2 h-px border-t-0 bg-transparent bg-gradient-to-r from-transparent via-neutral-500 to-transparent opacity-25 dark:via-neutral-400" />
+					</div>
+					}
 					{message.messageType === "text" && <TextMessage message={message} />}
 					{message.messageType === "image" && <ImageMessage message={message} handleClick={() => setOpen(true)} />}
 					{message.messageType === "video" && (<VideoMessage message={message} />)}
