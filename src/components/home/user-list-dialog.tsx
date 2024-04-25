@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { use, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -18,8 +18,11 @@ import { Id } from "../../../convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import toast from "react-hot-toast";
+import { useConversationStore } from "@/store/chat-store";
+
 
 const UserListDialog = () => {
+  const { setSelectedConversation } = useConversationStore();
   const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([]);
   const [groupName, setGroupName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -74,6 +77,16 @@ const UserListDialog = () => {
 
       setSelectedUsers([]);
       DialogCloseRef.current?.click();
+
+      const conversationName = isGroup ? groupName : users?.find((user) => user._id === selectedUsers[0])?.name;
+      setSelectedConversation({
+        _id: conversationId,
+        participants: selectedUsers,
+        isGroup,
+        image: isGroup ? renderedImage : users?.find((user) => user._id === selectedUsers[0])?.image,
+        name: conversationName,
+        admin: me?._id!,
+      });
 
     } catch (error) {
       toast.error("Failed to create conversation");

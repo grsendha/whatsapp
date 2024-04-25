@@ -2,7 +2,6 @@ import { Id } from "../../convex/_generated/dataModel";
 import { create } from "zustand";
 
 export type Conversation = {
-  selectedConversation: any;
   _id: Id<"conversations">;
   image?: string;
   participants: Id<"users">[];
