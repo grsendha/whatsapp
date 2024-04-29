@@ -15,6 +15,7 @@ const Conversation = ({ conversation }: { conversation: any }) => {
 
 	const { setSelectedConversation, selectedConversation } = useConversationStore();
 	const activeBgClass = selectedConversation?._id === conversation._id;
+	console.log("CONVERSATION ARE", conversation);
 	return (
 		<>
 			<div

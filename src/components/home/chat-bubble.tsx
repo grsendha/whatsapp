@@ -29,7 +29,7 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 	const isGroup = selectedConversation?.isGroup || false;
 	const fromMe = message?.sender._id === me._id;
 	const fromAI = message.sender?.name === "Gemini";
-	const bgClass = fromMe ? 'bg-green-chat' : !fromAI ? 'bg-white-dark:bg-gray-primary' : 'bg-blue-500 text-white';
+	const bgClass = fromMe ? 'bg-green-chat' : !fromAI ? 'bg-gray-primary' : 'bg-blue-500 text-white';
 	if (!fromMe) {
 		return (<>
 			<DateIndicator message={message} previousMessage={previousMessage} />

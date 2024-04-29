@@ -31,6 +31,15 @@ const RightPanel = () => {
 						<div className='flex flex-col'>
 							<p>{conversationName}</p>
 							{selectedConversation.isGroup && <GroupMembersDialog selectedConversation={selectedConversation} />}
+							{!selectedConversation.isGroup && selectedConversation.isOnline ?
+								<div className="flex flex-row justify-start items-center py-1 gap-1">
+									<div className=" w-2.5 h-2.5 bg-green-500 rounded-full border-2 " />
+									<h1 className="">online</h1>
+								</div>
+								: <div className="flex flex-row justify-start items-center py-1 gap-1">
+									<div className=" w-2.5 h-2.5 bg-red-500 rounded-full border-2 " />
+									<h1 className="">offline</h1>
+								</div>}
 						</div>
 					</div>
 

@@ -7,11 +7,21 @@ import { UserButton } from "@clerk/clerk-react";
 import UserListDialog from "./user-list-dialog";
 import { useConvex, useConvexAuth, useQuery } from "convex/react";
 import { api } from "../../../convex/_generated/api";
+import { useEffect } from "react";
+import { useConversationStore } from "@/store/chat-store";
 
 const LeftPanel = () => {
 	const { isAuthenticated } = useConvexAuth();
 	const conversations = useQuery(api.conversations.getMyConversation, isAuthenticated ? undefined : "skip");
-	console.log(conversations);
+	const { selectedConversation, setSelectedConversation } = useConversationStore();
+
+	useEffect(() => {
+		const conversationIds = conversations?.map((conversation) => conversation._id);
+		if (selectedConversation && conversationIds && !conversationIds.includes(selectedConversation._id)) {
+			setSelectedConversation(null);
+		}
+	}, [conversations, selectedConversation, setSelectedConversation]);
+	console.log("CONVERSATIONS In left panel", conversations);
 	return (
 		<div className='w-1/4 border-gray-600 border-r'>
 			<div className='sticky top-0 bg-left-panel z-10'>
