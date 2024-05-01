@@ -2,6 +2,17 @@
 
 https://whatsapp-gyan.vercel.app/
 
+## Tech Stack
+- **Database**: Convex
+- **Real-time Events**: Convex
+- **Cloud Functions**: Convex
+- **Framework**: Next.js App Router
+- **UI Components**: ShadCN
+- **File Storage**: Convex File Storage
+- **User Authentication**: Clerk
+- **Styling**: Tailwind CSS
+- **Language**: TypeScript (just to feel cool)
+
 | Chatting Screen                               |
 |-------------------------------------------|
 | <img src="https://github.com/grsendha/whatsapp/assets/75114005/e063bb93-0e4c-4686-90ce-9c3544f32bb2" width="600" height="300">| 
